@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const logger = require('../utils/logger');
+
 
 const auth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -16,6 +18,7 @@ const auth = async (req, res, next) => {
     if (!req.user) return res.status(401).json({ message: 'User not found' });
     next();
   } catch (err) {
+    logger.error(err.message);
     res.status(401).json({ message: 'Invalid token' });
   }
 };
